@@ -11,6 +11,7 @@ class UserViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = {
         'login': ['exact'],
+        'is_staff': ['exact']
     }
     search_fields = ['login']
 

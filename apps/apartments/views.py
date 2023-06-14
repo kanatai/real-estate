@@ -1,4 +1,5 @@
-from rest_framework import permissions, filters, parsers
+from rest_framework import filters, parsers
+from project import project_permissions
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -9,7 +10,7 @@ from apps.apartments.serializers import ApartmentSerializer, ApartmentTypeSerial
 
 # Create your views here.
 class ApartmentViewSet(ModelViewSet):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [project_permissions.IsAdmin]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = {
         'title': ['exact'],
@@ -35,7 +36,7 @@ class ApartmentViewSet(ModelViewSet):
 
 
 class ApartmentTypeViewSet(ModelViewSet):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [project_permissions.IsAdmin]
 
     def get_queryset(self):
         return ApartmentType.objects.all()
@@ -45,7 +46,7 @@ class ApartmentTypeViewSet(ModelViewSet):
 
 
 class ApartmentImageViewSet(ModelViewSet):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [project_permissions.IsAdmin]
     parser_classes = (parsers.MultiPartParser,)
 
     def get_queryset(self):
@@ -56,7 +57,7 @@ class ApartmentImageViewSet(ModelViewSet):
 
 
 class FloorViewSet(ModelViewSet):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [project_permissions.IsAdmin]
 
     def get_queryset(self):
         return Floor.objects.all()
@@ -66,7 +67,7 @@ class FloorViewSet(ModelViewSet):
 
 
 class SeriesViewSet(ModelViewSet):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [project_permissions.IsAdmin]
 
     def get_queryset(self):
         return Series.objects.all()
@@ -76,7 +77,7 @@ class SeriesViewSet(ModelViewSet):
 
 
 class DocumentViewSet(ModelViewSet):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [project_permissions.IsAdmin]
 
     def get_queryset(self):
         return Document.objects.all()
