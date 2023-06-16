@@ -20,7 +20,9 @@ class ApartmentViewSet(ModelViewSet):
         'room_count': ['exact'],
         'floor__title': ['exact'],
         'square': ['gte', 'lte'],
-        'price': ['gte', 'lte']
+        'price': ['gte', 'lte'],
+        'best': ['exec']
+
     }
     search_fields = ['title']
 
