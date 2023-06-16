@@ -21,7 +21,7 @@ class ApartmentViewSet(ModelViewSet):
         'floor__title': ['exact'],
         'square': ['gte', 'lte'],
         'price': ['gte', 'lte'],
-        'best': ['exec']
+        'best': ['exact']
 
     }
     search_fields = ['title']
