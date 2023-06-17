@@ -24,5 +24,8 @@ INSTALLED_APPS = [
     'apps.favorite',
     'apps.region',
     'apps.services',
-    'apps.banner'
+    'apps.banner',
+    'apps.ads',
+    'apps.currency',
+    'apps.review'
 ]
