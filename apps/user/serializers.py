@@ -9,9 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = [
             'password',
             'groups',
-            'user_permissions',
-            'is_superuser',
-            'is_staff'
+            'user_permissions'
+            # 'is_superuser',
+            # 'is_staff'
             ]
         # fields = "__all__"
 
