@@ -11,6 +11,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=155)
     last_name = models.CharField(_('last name'), max_length=155)
     middle_name = models.CharField(_('middle name'), max_length=155, null=True, blank=True)
+    password = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField()
     is_active = models.BooleanField()
@@ -31,3 +32,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.get_short_name()
+
+    def create_user(self, login, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self.objects._create_user(self, login=login, password=password, **extra_fields)
