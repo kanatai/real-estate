@@ -12,12 +12,6 @@ class BannerViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['title']
 
-    def list(self, request, *args, **kwargs):
-        """
-        hello
-        """
-        super().list(self, request, *args, **kwargs)
-
     def get_queryset(self):
         return Banner.objects.all()
 

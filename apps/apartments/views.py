@@ -32,6 +32,7 @@ class ApartmentViewSet(ModelViewSet):
 
     def get_serializer_class(self):
         serializer_map = {
+            "retrieve": ApartmentSerializer,
             "list": ApartmentSerializer,
             "create": ApartmentCreateSerializer
         }

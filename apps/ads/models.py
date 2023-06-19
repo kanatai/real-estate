@@ -9,5 +9,5 @@ class Ads(models.Model):
 
     class Meta:
         verbose_name = _('Ads')
-        verbose_name_plural = _('Ads')
+        verbose_name_plural = _('Adses')
         ordering = ['-created_at']

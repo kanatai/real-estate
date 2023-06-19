@@ -14,12 +14,6 @@ class ReviewViewSet(ModelViewSet):
     }
     search_fields = ['fullname']
 
-    def list(self, request, *args, **kwargs):
-        """
-        Это отзывы
-        """
-        super().list(self, request, *args, **kwargs)
-
     def get_queryset(self):
         return Review.objects.all()
 

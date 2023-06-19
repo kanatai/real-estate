@@ -13,7 +13,7 @@ class UserViewSet(ModelViewSet):
 
     filterset_fields = {
         'login': ['exact'],
-        'is_staff': ['exact']
+        'is_superuser': ['exact']
     }
     search_fields = ['login']
 
