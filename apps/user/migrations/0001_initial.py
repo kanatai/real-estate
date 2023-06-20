@@ -25,7 +25,6 @@ class Migration(migrations.Migration):
                 ('last_name', models.CharField(max_length=155, verbose_name='last name')),
                 ('middle_name', models.CharField(blank=True, max_length=155, null=True, verbose_name='middle name')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('is_staff', models.BooleanField()),
                 ('is_active', models.BooleanField()),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),

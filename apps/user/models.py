@@ -33,6 +33,5 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.get_short_name()
 
     def create_user(self, login, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self.objects._create_user(self, login=login, password=password, **extra_fields)
