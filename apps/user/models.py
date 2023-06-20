@@ -13,6 +13,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     middle_name = models.CharField(_('middle name'), max_length=155, null=True, blank=True)
     password = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField()
     objects = UserManager()
     USERNAME_FIELD = 'login'

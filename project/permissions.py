@@ -19,6 +19,6 @@ class IsAdminUserOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         # allow all POST requests
         if request.method == 'POST':
-            return request.user.is_staff
+            return request.user.is_superuser
         # Otherwise, only allow authenticated requests
         return True

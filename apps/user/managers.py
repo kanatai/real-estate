@@ -4,11 +4,13 @@ from django.contrib.auth.base_user import BaseUserManager
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, login, password, **extra_fields):
+    def _create_user(self, login, password, is_staff=False, **extra_fields):
         if not login:
             raise ValueError('The given login must be set')
-        user = self.model(login=login, **extra_fields)
+        user = self.model(login=login, is_staff=is_staff, **extra_fields)
         user.set_password(password)
+        # user.first_name = login
+        # user.last_name = login
         user.is_active = True
 
         user.save()
