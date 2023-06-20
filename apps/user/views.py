@@ -4,7 +4,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework import response, status
 
 from apps.user.models import User
-from apps.user.serializers import UserSerializer
+from apps.user.serializers import UserSerializer, UserCreateSerializer
 
 
 class UserViewSet(ModelViewSet):
@@ -28,4 +28,9 @@ class UserViewSet(ModelViewSet):
         return User.objects.all()
 
     def get_serializer_class(self):
-        return UserSerializer
+        serializer_map = {
+            "retrieve": UserSerializer,
+            "list": UserSerializer,
+            "create": UserCreateSerializer
+        }
+        return serializer_map.get(self.action)
