@@ -17,13 +17,6 @@ class UserViewSet(ModelViewSet):
     }
     search_fields = ['login']
 
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return response.Response(serializer.data, status=status.HTTP_201_CREATED)
-        return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def get_queryset(self):
         return User.objects.all()
 
@@ -34,3 +27,10 @@ class UserViewSet(ModelViewSet):
             "create": UserCreateSerializer
         }
         return serializer_map.get(self.action)
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save(is_superuser=False)
+            return response.Response(serializer.data, status=status.HTTP_201_CREATED)
+        return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

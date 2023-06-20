@@ -9,8 +9,8 @@ class UserManager(BaseUserManager):
             raise ValueError('The given login must be set')
         user = self.model(login=login, is_staff=is_staff, **extra_fields)
         user.set_password(password)
-        # user.first_name = login
-        # user.last_name = login
+        user.first_name = login
+        user.last_name = login
         user.is_active = True
 
         user.save()

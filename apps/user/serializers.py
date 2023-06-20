@@ -7,19 +7,18 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = [
-            'password',
+            # 'password',
             'groups',
             'user_permissions'
             # 'is_superuser',
-            ]
+        ]
         # fields = "__all__"
-
-    def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('login', 'password')
+        fields = ('login', 'password')  # '__all__'
 
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)

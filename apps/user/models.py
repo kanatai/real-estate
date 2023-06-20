@@ -14,8 +14,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default=True)
     objects = UserManager()
+    objects.is_superuser = False
     USERNAME_FIELD = 'login'
     REQUIRED_FIELDS = []
 
