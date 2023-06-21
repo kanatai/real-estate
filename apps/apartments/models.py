@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.currency.models import Currency
 from apps.region.models import Region
 from apps.user.models import User
 
@@ -66,6 +67,7 @@ class Apartment(models.Model):
     series = models.ForeignKey(Series, on_delete=models.CASCADE)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(_('Created date'), auto_now_add=True)
 

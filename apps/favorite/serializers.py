@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from apps.apartments.serializers import ApartmentSerializer
 from apps.favorite.models import Favorite
-# from apps.apartments.serializers import ApartmentSerializer
+from apps.user.serializers import UserSerializer
 
 
 class FavoriteBaseSerializer(serializers.ModelSerializer):
@@ -17,3 +17,4 @@ class FavoriteCreateSerializer(FavoriteBaseSerializer):
 
 class FavoriteSerializer(FavoriteBaseSerializer):
     apartment = ApartmentSerializer()
+    user = UserSerializer(read_only=True)

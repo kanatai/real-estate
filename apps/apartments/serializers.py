@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.apartments.models import Apartment, ApartmentType, ApartmentImage, Floor, Series, Document
+from apps.currency.serializers import CurrencySerializer
 from apps.region.serializers import RegionSerializer
 from apps.user.serializers import UserSerializer
 
@@ -51,5 +52,6 @@ class ApartmentSerializer(ApartmentBaseSerializer):
     document = DocumentSerializer()
     series = SeriesSerializer()
     region = RegionSerializer()
+    currency = CurrencySerializer()
     apartment_images = ApartmentImageSerializer(many=True)
     author = UserSerializer()
