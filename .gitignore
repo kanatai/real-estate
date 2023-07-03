@@ -1,2 +1,4 @@
 postgres
 project/media
+#.env
+#.idea

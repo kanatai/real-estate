@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission
 
-SAFE_METHODS = ('GET', 'PATCH', 'HEAD', 'OPTIONS')
+SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
 
 
 class IsAdmin(BasePermission):

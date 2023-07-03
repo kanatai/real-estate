@@ -7,7 +7,7 @@ from apps.user.managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    login = models.CharField(_('login'), unique=True, max_length=13)
+    login = models.CharField(_('login'), unique=True, max_length=155)
     first_name = models.CharField(_('first name'), max_length=155)
     last_name = models.CharField(_('last name'), max_length=155)
     middle_name = models.CharField(_('middle name'), max_length=155, null=True, blank=True)

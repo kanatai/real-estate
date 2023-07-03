@@ -21,6 +21,7 @@ from apps.services.urls import service_router
 from apps.ads.urls import ads_router
 from apps.currency.urls import currency_router
 from apps.review.urls import review_router
+from apps.company.urls import company_router
 
 from project import settings
 
@@ -34,6 +35,7 @@ router.registry.extend(banner_router.registry)
 router.registry.extend(ads_router.registry)
 router.registry.extend(currency_router.registry)
 router.registry.extend(review_router.registry)
+router.registry.extend(company_router.registry)
 
 urlpatterns = [
     path('dashboard/', admin.site.urls),

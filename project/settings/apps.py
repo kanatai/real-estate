@@ -27,5 +27,6 @@ INSTALLED_APPS = [
     'apps.banner',
     'apps.ads',
     'apps.currency',
-    'apps.review'
+    'apps.review',
+    'apps.company'
 ]

@@ -12,3 +12,15 @@ class Banner(models.Model):
         verbose_name = _('Banner')
         verbose_name_plural = _('Banners')
         ordering = ['-created_at']
+
+
+class BannerImage(models.Model):
+    image = models.ImageField(upload_to='banner/')
+    created_at = models.DateTimeField(_('Created date'), auto_now_add=True)
+
+    banner = models.ForeignKey(Banner, on_delete=models.CASCADE, related_name="banner_images")
+
+    class Meta:
+        verbose_name = _('ApartmentImage')
+        verbose_name_plural = _('ApartmentImages')
+        ordering = ['-created_at']
