@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions, filters, parsers
+from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import response, status
 
@@ -35,6 +36,14 @@ class UserViewSet(ModelViewSet):
             serializer.save(is_superuser=False)
             return response.Response(serializer.data, status=status.HTTP_201_CREATED)
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['get'])
+    def get_me(self, request):
+        user = request.user
+        if not user:
+            return response.Response({'error': 'Not found'}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = UserSerializer(user)
+        return response.Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserImageViewSet(ModelViewSet):
