@@ -1,9 +1,17 @@
 from rest_framework import serializers
 
-from apps.user.models import User
+from apps.user.models import User, UserImage
+
+
+class UserImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserImage
+        fields = "__all__"
 
 
 class UserSerializer(serializers.ModelSerializer):
+    user_images = UserImageSerializer(many=True)
+
     class Meta:
         model = User
         exclude = [
@@ -16,6 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ('login', 'password')  # '__all__'

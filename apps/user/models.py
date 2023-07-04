@@ -37,3 +37,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     def create_user(self, login, password=None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
         return self.objects._create_user(self, login=login, password=password, **extra_fields)
+
+
+class UserImage(models.Model):
+    image = models.ImageField(upload_to='user/')
+    is_main = models.BooleanField(default=False)
+    created_at = models.DateTimeField(_('Created date'), auto_now_add=True)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_images")
+
+    class Meta:
+        verbose_name = _('CompanyImage')
+        verbose_name_plural = _('CompanyImages')
+        ordering = ['-created_at']

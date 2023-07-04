@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from apps.user.models import User
+from apps.user.models import User, UserImage
 
 
 class CustomUserAdmin(UserAdmin):
@@ -30,3 +30,4 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(UserImage)
