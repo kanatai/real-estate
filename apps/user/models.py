@@ -50,3 +50,8 @@ class UserImage(models.Model):
         verbose_name = _('CompanyImage')
         verbose_name_plural = _('CompanyImages')
         ordering = ['-created_at']
+
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     compressed_image = compressImage(self)
+    #     compressed_image.save(self.image.path, quality=80) # Перезаписываем оригинальное изображение сжатым
