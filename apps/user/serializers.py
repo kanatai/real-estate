@@ -20,7 +20,7 @@ class UserImageSerializer(serializers.ModelSerializer):
 
         # Затем сохраняем сжатое изображение, уже после создания экземпляра
         compressed_image = CompressImageField().to_internal_value(image)
-        banner_image.image.save('compressed_image.jpg', compressed_image)
+        banner_image.image.save('compressed_image.jpg', compressed_image, quality=90.0)
 
         return banner_image
 

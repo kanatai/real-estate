@@ -20,6 +20,6 @@ class CompressImageField(serializers.ImageField):
         # Ваши логика сжатия здесь.
         # Например, можно изменить размер изображения или изменить его качество.
         # В этом примере просто уменьшим размер вдвое.
-        new_width = image.width // 2
-        new_height = image.height // 2
-        return image.resize((new_width, new_height))
+        new_width = image.width // 1.2
+        new_height = image.height // 1.2
+        return image.resize((int(new_width), int(new_height)))
