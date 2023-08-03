@@ -1,15 +1,21 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import permissions, filters, status
+from rest_framework import permissions, filters, status, mixins
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.exceptions import ValidationError
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import GenericViewSet
 from apps.apartments.models import Apartment
 from apps.favorite.models import Favorite
 from apps.favorite.serializers import FavoriteSerializer, FavoriteCreateSerializer
 from rest_framework.response import Response
 
 
-class FavoriteViewSet(ModelViewSet):
+class FavoriteViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet,
+):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = {
@@ -18,7 +24,7 @@ class FavoriteViewSet(ModelViewSet):
         'apartment__type__id': ['exact'],
     }
 
-    search_fields = ['apartment.title']
+    search_fields = ['apartment__title']
 
     def get_queryset(self):
         if self.request.POST:
@@ -27,6 +33,13 @@ class FavoriteViewSet(ModelViewSet):
             return Favorite.objects.filter(user=user, apartment=apartment)
         else:
             return Favorite.objects.all()
+
+    def get_serializer_class(self):
+        serializer_map = {
+            "list": FavoriteSerializer,
+            "create": FavoriteCreateSerializer
+        }
+        return serializer_map.get(self.action)
 
     def post(self, request, *args, **kwargs):
         item_id = request.data.get('apartment')
@@ -43,13 +56,6 @@ class FavoriteViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(user=user, apartment=apartment)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def get_serializer_class(self):
-        serializer_map = {
-            "list": FavoriteSerializer,
-            "create": FavoriteCreateSerializer
-        }
-        return serializer_map.get(self.action)
 
 
     # def perform_create(self, serializer):

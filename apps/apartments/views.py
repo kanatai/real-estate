@@ -1,15 +1,22 @@
-from rest_framework import filters, parsers
+from rest_framework import filters, parsers, mixins
 from project import project_permissions
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 
 from apps.apartments.models import ApartmentType, Apartment, ApartmentImage, Floor, Series, Document
 from apps.apartments.serializers import ApartmentSerializer, ApartmentTypeSerializer, ApartmentCreateSerializer, \
-    ApartmentImageSerializer, FloorSerializer, SeriesSerializer, DocumentSerializer
+    ApartmentImageSerializer, FloorSerializer, SeriesSerializer, DocumentSerializer, ApartmentBaseSerializer
 
 
 # Create your views here.
-class ApartmentViewSet(ModelViewSet):
+class ApartmentViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet
+):
     permission_classes = [project_permissions.IsAdmin]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = {
@@ -34,10 +41,17 @@ class ApartmentViewSet(ModelViewSet):
         serializer_map = {
             "retrieve": ApartmentSerializer,
             "list": ApartmentSerializer,
+            "update": ApartmentBaseSerializer,
+            "partial_update": ApartmentBaseSerializer,
             "create": ApartmentCreateSerializer
         }
-        return serializer_map.get(self.action)
+        return serializer_map.get(self.action, ApartmentSerializer)
 
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 class ApartmentTypeViewSet(ModelViewSet):
     permission_classes = [project_permissions.IsAdmin]

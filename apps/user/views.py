@@ -34,7 +34,7 @@ class UserViewSet(
             "retrieve": UserSerializer,
             "list": UserSerializer,
             "update": UserUpdateSerializer,
-            "patch": UserUpdateSerializer,
+            "partial_update": UserUpdateSerializer,
             "create": UserCreateSerializer
         }
         return serializer_map.get(self.action, UserSerializer)
@@ -48,6 +48,9 @@ class UserViewSet(
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
     @action(detail=False, methods=['get'])
     def get_me(self, request):
