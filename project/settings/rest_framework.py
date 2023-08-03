@@ -21,5 +21,5 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
         'rest_framework.parsers.MultiPartParser'
     ],
-    'DATA_UPLOAD_MAX_MEMORY_SIZE': (5 * 1024 * 1024),  # Например, 5 MB (5 * 1024 * 1024)
+    'DATA_UPLOAD_MAX_MEMORY_SIZE': (10 * 1024 * 1024),  # Например, 5 MB (5 * 1024 * 1024)
 }

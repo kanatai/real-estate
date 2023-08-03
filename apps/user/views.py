@@ -1,15 +1,22 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import permissions, filters, parsers
+from rest_framework import permissions, filters, parsers, mixins
 from rest_framework.decorators import action
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework import response, status
 
 from apps.user.models import User, UserImage
-from apps.user.serializers import UserSerializer, UserCreateSerializer, UserImageSerializer
+from apps.user.serializers import UserSerializer, UserCreateSerializer, UserImageSerializer, UserUpdateSerializer
 from project import project_permissions
 
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    GenericViewSet
+):
     permission_classes = [permissions.AllowAny]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
 
@@ -26,9 +33,11 @@ class UserViewSet(ModelViewSet):
         serializer_map = {
             "retrieve": UserSerializer,
             "list": UserSerializer,
+            "update": UserUpdateSerializer,
+            "patch": UserUpdateSerializer,
             "create": UserCreateSerializer
         }
-        return serializer_map.get(self.action)
+        return serializer_map.get(self.action, UserSerializer)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -36,6 +45,9 @@ class UserViewSet(ModelViewSet):
             serializer.save(is_superuser=False)
             return response.Response(serializer.data, status=status.HTTP_201_CREATED)
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
     @action(detail=False, methods=['get'])
     def get_me(self, request):
