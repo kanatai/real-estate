@@ -57,5 +57,6 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             'last_name',
             'middle_name',
             'created_at',
-            'is_active'
+            'is_active',
+            'is_superuser'
         )
