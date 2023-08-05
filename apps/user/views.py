@@ -5,9 +5,7 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework import response, status
 
 from apps.user.models import User, UserImage
-from apps.user.serializers import UserSerializer, UserCreateSerializer, UserImageSerializer, UserUpdateSerializer, \
-    UserUpdateImageSerializer
-from project import project_permissions
+from apps.user.serializers import UserSerializer, UserCreateSerializer, UserImageSerializer, UserUpdateSerializer
 
 
 class UserViewSet(
@@ -50,7 +48,7 @@ class UserViewSet(
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
     @action(detail=False, methods=['get'])
@@ -80,8 +78,8 @@ class UserImageViewSet(
         serializer_map = {
             "retrieve": UserImageSerializer,
             "list": UserImageSerializer,
-            "update": UserUpdateImageSerializer,
-            "partial_update": UserUpdateImageSerializer,
+            "update": UserImageSerializer,
+            "partial_update": UserImageSerializer,
             "create": UserImageSerializer
         }
         return serializer_map.get(self.action, UserImageSerializer)
