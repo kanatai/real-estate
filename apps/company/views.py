@@ -1,13 +1,19 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, parsers
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import filters, parsers, mixins
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from apps.company.models import Company, CompanyImage
 from apps.company.serializers import CompanyCreateSerializer, CompanySerializer, CompanyImageSerializer
 from project import project_permissions
 
 
-class CompanyImageViewSet(ModelViewSet):
+class CompanyImageViewSet(
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    GenericViewSet
+):
     permission_classes = [project_permissions.IsAdmin]
     parser_classes = (parsers.MultiPartParser,)
 

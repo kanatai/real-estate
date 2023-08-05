@@ -5,7 +5,8 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework import response, status
 
 from apps.user.models import User, UserImage
-from apps.user.serializers import UserSerializer, UserCreateSerializer, UserImageSerializer, UserUpdateSerializer
+from apps.user.serializers import UserSerializer, UserCreateSerializer, UserImageSerializer, UserUpdateSerializer, \
+    UserUpdateImageSerializer
 from project import project_permissions
 
 
@@ -61,12 +62,32 @@ class UserViewSet(
         return response.Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class UserImageViewSet(ModelViewSet):
-    permission_classes = [project_permissions.IsAdmin]
+class UserImageViewSet(
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    GenericViewSet
+):
+    permission_classes = [permissions.IsAuthenticated]
     parser_classes = (parsers.MultiPartParser,)
 
     def get_queryset(self):
         return UserImage.objects.all()
 
     def get_serializer_class(self):
-        return UserImageSerializer
+        serializer_map = {
+            "retrieve": UserImageSerializer,
+            "list": UserImageSerializer,
+            "update": UserUpdateImageSerializer,
+            "partial_update": UserUpdateImageSerializer,
+            "create": UserImageSerializer
+        }
+        return serializer_map.get(self.action, UserImageSerializer)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)

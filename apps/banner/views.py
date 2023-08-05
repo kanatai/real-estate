@@ -1,13 +1,19 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, parsers
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import filters, parsers, mixins
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from project import project_permissions
 from apps.banner.models import Banner, BannerImage
 from apps.banner.serializers import BannerSerializer, BannerImageSerializer, BannerCreateSerializer
 
 
-class BannerImageViewSet(ModelViewSet):
+class BannerImageViewSet(
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    GenericViewSet
+):
     permission_classes = [project_permissions.IsAdmin]
     parser_classes = (parsers.MultiPartParser,)
 

@@ -28,6 +28,12 @@ class UserImageSerializer(serializers.ModelSerializer):
         return banner_image
 
 
+class UserUpdateImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserImage
+        exclude = ('image', 'created_at', 'user')
+
+
 class UserSerializer(serializers.ModelSerializer):
     user_images = UserImageSerializer(many=True)
 
