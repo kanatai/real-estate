@@ -1,3 +1,5 @@
+import uuid
+
 from rest_framework import serializers
 from apps.user.models import User, UserImage
 from apps.utils import CompressImageField
@@ -20,7 +22,8 @@ class UserImageSerializer(serializers.ModelSerializer):
 
         # Затем сохраняем сжатое изображение, уже после создания экземпляра
         compressed_image = CompressImageField().to_internal_value(image)
-        banner_image.image.save('compressed_image.jpg', compressed_image, quality=90.0)
+        filename = f'{uuid.uuid4()}.jpg'
+        banner_image.image.save(filename, compressed_image)
 
         return banner_image
 

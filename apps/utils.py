@@ -8,6 +8,10 @@ class CompressImageField(serializers.ImageField):
         # Открываем изображение с помощью Pillow
         image = Image.open(data)
 
+        # Проверяем режим изображения и преобразуем в RGB, если это RGBA
+        if image.mode == "RGBA":
+            image = image.convert("RGB")
+
         # Сжимаем изображение до желаемого размера
         image = self.compress_image(image)
 
