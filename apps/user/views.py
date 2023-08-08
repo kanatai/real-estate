@@ -34,7 +34,7 @@ class UserViewSet(
             "list": UserSerializer,
             "update": UserUpdateSerializer,
             "partial_update": UserUpdateSerializer,
-            "post": UserCreateSerializer,
+            "create": UserCreateSerializer,
             "create_super_user": UserCreateSuperSerializer
         }
         return serializer_map.get(self.action, UserSerializer)
