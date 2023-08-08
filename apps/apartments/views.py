@@ -23,6 +23,7 @@ class ApartmentViewSet(
         'title': ['exact'],
         'type': ['exact'],
         'series': ['exact'],
+        'services__id': ['exact'],
         'region': ['exact'],
         'room_count': ['exact'],
         'floor__title': ['exact'],

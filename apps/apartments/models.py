@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.currency.models import Currency
 from apps.region.models import Region
+from apps.services.models import Service
 from apps.user.models import User
 
 
@@ -49,9 +50,11 @@ class Series(models.Model):
 class Apartment(models.Model):
     title = models.CharField(max_length=256)
     square = models.CharField(max_length=50)
+    plot_weaving = models.CharField(max_length=50)
     address = models.CharField(max_length=256)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
 
-    communications = models.TextField(max_length=1000, help_text="Enter a description of the apartment")
+    communications = models.TextField(max_length=1000, help_text="communications")
     description = models.TextField(max_length=1000, help_text="Enter a description of the apartment")
 
     best = models.BooleanField(False)
@@ -64,7 +67,8 @@ class Apartment(models.Model):
     type = models.ForeignKey(ApartmentType, on_delete=models.CASCADE)
     floor = models.ForeignKey(Floor, on_delete=models.CASCADE)
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
-    series = models.ForeignKey(Series, on_delete=models.CASCADE)
+    series = models.ForeignKey(Series, on_delete=models.CASCADE, null=True, blank=True)
+    services = models.ManyToManyField(Service, null=True, blank=True)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)

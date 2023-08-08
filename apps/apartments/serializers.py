@@ -3,6 +3,7 @@ from rest_framework import serializers
 from apps.apartments.models import Apartment, ApartmentType, ApartmentImage, Floor, Series, Document
 from apps.currency.serializers import CurrencySerializer
 from apps.region.serializers import RegionSerializer
+from apps.services.serializers import ServiceSerializer
 from apps.user.serializers import UserSerializer
 from apps.utils import CompressImageField
 
@@ -68,6 +69,7 @@ class ApartmentSerializer(ApartmentBaseSerializer):
     floor = FloorSerializer()
     document = DocumentSerializer()
     series = SeriesSerializer()
+    services = ServiceSerializer(many=True)
     region = RegionSerializer()
     currency = CurrencySerializer()
     apartment_images = ApartmentImageSerializer(many=True)
