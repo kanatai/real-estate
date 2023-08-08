@@ -61,6 +61,7 @@ class UserImageSerializer(serializers.ModelSerializer):
 #         ...
 #         return user_img  # no errors more :)
 
+
 class UserSerializer(serializers.ModelSerializer):
     user_images = UserImageSerializer(many=True)
 
@@ -82,6 +83,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+
+
+class UserCreateSuperSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('login', 'password')
+
+    def create(self, validated_data):
+        return User.objects.create_superuser(**validated_data)
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):

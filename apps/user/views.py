@@ -3,9 +3,9 @@ from rest_framework import permissions, filters, parsers, mixins
 from rest_framework.decorators import action
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework import response, status
-
+from project import project_permissions
 from apps.user.models import User, UserImage
-from apps.user.serializers import UserSerializer, UserCreateSerializer, UserImageSerializer, UserUpdateSerializer
+from apps.user.serializers import UserSerializer, UserCreateSerializer, UserImageSerializer, UserUpdateSerializer, UserCreateSuperSerializer
 
 
 class UserViewSet(
@@ -34,7 +34,8 @@ class UserViewSet(
             "list": UserSerializer,
             "update": UserUpdateSerializer,
             "partial_update": UserUpdateSerializer,
-            "create": UserCreateSerializer
+            "post": UserCreateSerializer,
+            "create_super_user": UserCreateSuperSerializer
         }
         return serializer_map.get(self.action, UserSerializer)
 
@@ -45,11 +46,8 @@ class UserViewSet(
             return response.Response(serializer.data, status=status.HTTP_201_CREATED)
         return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
     def partial_update(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+        return super().partial_update(request, *args, **kwargs)
 
     @action(detail=False, methods=['get'])
     def get_me(self, request):
@@ -58,6 +56,14 @@ class UserViewSet(
             return response.Response({'error': 'Not found'}, status=status.HTTP_400_BAD_REQUEST)
         serializer = UserSerializer(user)
         return response.Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['POST'], permission_classes=[project_permissions.IsAdmin,])
+    def create_super_user(self, request):
+        serializer = UserCreateSuperSerializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return response.Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 class UserImageViewSet(
@@ -84,8 +90,8 @@ class UserImageViewSet(
         }
         return serializer_map.get(self.action, UserImageSerializer)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)

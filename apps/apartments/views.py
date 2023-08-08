@@ -47,11 +47,12 @@ class ApartmentViewSet(
         }
         return serializer_map.get(self.action, ApartmentSerializer)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)
+
 
 class ApartmentTypeViewSet(ModelViewSet):
     permission_classes = [project_permissions.IsAdmin]
